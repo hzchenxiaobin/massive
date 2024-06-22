@@ -25,6 +25,16 @@ print("5.git checkout gh-pages.....")
 subprocess.run('git checkout gh-pages', shell=True)
 
 #6.将当前的内容都删除，除了.git目录
+current_dir = os.getcwd()
+
+for item in os.listdir(current_dir):
+    item_path = os.path.join(current_dir, item)
+    if item == '.git':
+        continue
+    if os.path.isfile(item_path):
+        os.remove(item_path)
+    elif os.path.isdir(item_path):
+        shutil.rmtree(item_path)
 
 #7.将book目录的内容都拷贝到当前目录
 
