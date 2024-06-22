@@ -1,5 +1,6 @@
 import subprocess
 import os
+import shutil
 
 #1.将当前目录切换到上一层目录
 os.chdir('..')
