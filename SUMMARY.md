@@ -1,6 +1,6 @@
 # Summary
 
-* [Introduction](README.md)
+* [REMDME](README.md)
 * [第一章 引言](chapter1/README.md)
   * [1.1 异构并行计算](chapter1/1.1.md)
   * [1.2 为什么需要更高的速度或并行性](chapter1/1.2.md)
