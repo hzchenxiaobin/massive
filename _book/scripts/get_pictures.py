@@ -1,6 +1,7 @@
 # pip install pymupdf
 
 import fitz  # PyMuPDF
+# 获取全书的所有图片，现在已经将全书的所有图片保存在massive/pic/allpic目录中了
 
 # 打开 PDF 文件
 pdf_document = "/Users/chenbinbin/GitHub/massive/原始文本/programming-massively-parallel-processors-a-hands-on-approach-4nbsped-9780323912310_compress.pdf"
