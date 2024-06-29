@@ -4,6 +4,8 @@ import shutil
 import sys
 
 massive_path = '/mnt/d/massive/'
+#这个脚本用于构建gitbook并且将构建结果推送到gh-pages分支上，
+#使得最新的翻译结果在https://github.com/hzchenxiaobin/massive页面展示
 
 #1.将当前目录切换到上一层目录
 os.chdir(massive_path)
