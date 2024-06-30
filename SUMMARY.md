@@ -9,6 +9,7 @@
   * [1.5 相关的并行编程接口](chapter1/1.5.md) 
   * [1.6 总体目标](chapter1/1.6.md)
   * [1.7 本书的组织结构](chapter1/1.7.md) 
+  * [参考文献](chapter1/reference.md) 
 * [Chapter 2](chapter2/README.md)
   * [Section 2.1](chapter2/section2.1.md)
   * [Section 2.2](chapter2/section2.2.md)
