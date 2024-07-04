@@ -14,7 +14,7 @@
   * [2.1 数据并行](chapter2/2.1.md)
   * [2.2 CUDA C程序结构](chapter2/2.2.md)
   * [2.3 一个向量加法的kernel](chapter2/2.3.md)
-  * [2.4 设备全局内存和数据传输](chapter2/2.4.md)
+  * [2.4 device全局内存和数据传输](chapter2/2.4.md)
   * [2.5 内核函数和线程](chapter2/2.5.md)
   * [2.6 调用内核函数](chapter2/2.6.md)
   * [2.7 编译](chapter2/2.7.md)
