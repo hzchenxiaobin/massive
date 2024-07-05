@@ -464,9 +464,48 @@ cudaFree(A_d);
 <p>A_d&#x3001;B_d &#x548C; C_d &#x4E2D;&#x7684;&#x5730;&#x5740;&#x6307;&#x5411;global memory&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;&#x3002;&#x8FD9;&#x4E9B;&#x5730;&#x5740;&#x4E0D;&#x5E94;&#x5728;&#x4E3B;&#x673A;&#x4EE3;&#x7801;&#x4E2D;&#x88AB;&#x89E3;&#x5F15;&#x7528;&#x3002;&#x5B83;&#x4EEC;&#x5E94;&#x5728;&#x8C03;&#x7528; API &#x51FD;&#x6570;&#x548C;kernel&#x51FD;&#x6570;&#x65F6;&#x4F7F;&#x7528;&#x3002;&#x5728;host&#x4EE3;&#x7801;&#x4E2D;&#x89E3;&#x5F15;&#x7528;global memory&#x6307;&#x9488;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;&#x5F02;&#x5E38;&#x6216;&#x5176;&#x4ED6;&#x7C7B;&#x578B;&#x7684;&#x8FD0;&#x884C;&#x65F6;&#x9519;&#x8BEF;&#x3002;</p>
 <p>&#x8BFB;&#x8005;&#x5E94;&#x8BE5;&#x6839;&#x636E;&#x4EE3;&#x7801;2.5&#x4E2D;vecAdd&#x793A;&#x4F8B;&#x7684;&#x7B2C;1&#x90E8;&#x5206;&#xFF0C;&#x5B8C;&#x6210;&#x7C7B;&#x4F3C;B_d &#x548C; C_d &#x6307;&#x9488;&#x53D8;&#x91CF;&#x7684;&#x58F0;&#x660E;&#xFF0C;&#x5E76;&#x5BF9;&#x5B83;&#x4EEC;&#x8FDB;&#x884C;&#x76F8;&#x5E94;&#x7684; cudaMalloc &#x8C03;&#x7528;&#x3002;&#x6B64;&#x5916;&#xFF0C;&#x4EE3;&#x7801;2.5&#x4E2D;&#x7684;&#x7B2C;3&#x90E8;&#x5206;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5BF9; B_d &#x548C; C_d &#x8C03;&#x7528; cudaFree &#x6765;&#x5B8C;&#x6210;&#x3002;</p>
 <blockquote>
-<h5 id=""> </h5>
+<h5 id="host&#x4E0E;kernel&#x4E4B;&#x95F4;&#x6570;&#x636E;&#x4F20;&#x8F93;&#x7684;cuda-api&#x51FD;&#x6570;">host&#x4E0E;kernel&#x4E4B;&#x95F4;&#x6570;&#x636E;&#x4F20;&#x8F93;&#x7684;CUDA API&#x51FD;&#x6570;</h5>
+<p>cudaMemcpy()</p>
+<ul>
+<li>&#x5185;&#x5B58;&#x6570;&#x636E;&#x4F20;&#x8F93;</li>
+<li>4&#x4E2A;&#x53C2;&#x6570;<ul>
+<li>&#x6307;&#x5411;&#x76EE;&#x6807;&#x4F4D;&#x7F6E;&#x7684;&#x6307;&#x9488;</li>
+<li>&#x6307;&#x5411;&#x6E90;&#x4F4D;&#x7F6E;&#x7684;&#x6307;&#x9488;</li>
+<li>&#x62F7;&#x8D1D;&#x6570;&#x636E;&#x7684;&#x5B57;&#x8282;&#x6570;</li>
+<li>&#x4F20;&#x8F93;&#x6570;&#x636E;&#x7684;&#x7C7B;&#x578B;/&#x65B9;&#x5411;</li>
+</ul>
+</li>
+</ul>
 </blockquote>
 <p>&#x4E00;&#x65E6;host&#x4EE3;&#x7801;&#x4E3A;&#x6570;&#x636E;&#x5BF9;&#x8C61;&#x5728;global memory&#x4E2D;&#x5206;&#x914D;&#x4E86;&#x7A7A;&#x95F4;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x8BF7;&#x6C42;&#x5C06;&#x6570;&#x636E;&#x4ECE;host&#x4F20;&#x8F93;&#x5230;kernel&#x3002;&#x8FD9;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8C03;&#x7528;CUDA API&#x7684;&#x51FD;&#x6570;&#x6765;&#x5B8C;&#x6210;&#x3002;cudaMemcpy&#x51FD;&#x6570;&#x63A5;&#x53D7;&#x56DB;&#x4E2A;&#x53C2;&#x6570;&#x3002;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x662F;&#x6307;&#x5411;&#x8981;&#x590D;&#x5236;&#x7684;&#x6570;&#x636E;&#x5BF9;&#x8C61;&#x7684;&#x76EE;&#x6807;&#x4F4D;&#x7F6E;&#x7684;&#x6307;&#x9488;&#x3002;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x6307;&#x5411;&#x6E90;&#x4F4D;&#x7F6E;&#x3002;&#x7B2C;&#x4E09;&#x4E2A;&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x8981;&#x590D;&#x5236;&#x7684;&#x5B57;&#x8282;&#x6570;&#x3002;&#x7B2C;&#x56DB;&#x4E2A;&#x53C2;&#x6570;&#x6307;&#x793A;&#x6D89;&#x53CA;&#x590D;&#x5236;&#x7684;&#x5185;&#x5B58;&#x7C7B;&#x578B;&#xFF1A;&#x4ECE;host&#x5230;host&#xFF0C;&#x4ECE;host&#x5230;kernel&#xFF0C;&#x4ECE;kernel&#x5230;hsot&#xFF0C;&#x4EE5;&#x53CA;&#x4ECE;kernel&#x5230;kernel&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5185;&#x5B58;&#x590D;&#x5236;&#x51FD;&#x6570;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x5C06;&#x6570;&#x636E;&#x4ECE;global memory&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x590D;&#x5236;&#x5230;&#x53E6;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x3002;</p>
+<p>vecAdd &#x51FD;&#x6570;&#x5728;&#x8FDB;&#x884C;&#x5411;&#x91CF;&#x76F8;&#x52A0;&#x4E4B;&#x524D;&#x8C03;&#x7528; cudaMemcpy &#x51FD;&#x6570;&#xFF0C;&#x5C06; A_h &#x548C; B_h &#x5411;&#x91CF;&#x4ECE;host&#x5185;&#x5B58;&#x590D;&#x5236;&#x5230;kernel&#x5185;&#x5B58;&#x4E2D;&#x7684; A_d &#x548C; B_d&#xFF0C;&#x5E76;&#x5728;&#x76F8;&#x52A0;&#x5B8C;&#x6210;&#x540E;&#x5C06; C_d &#x5411;&#x91CF;&#x4ECE;kernel&#x5185;&#x5B58;&#x590D;&#x5236;&#x5230;host&#x5185;&#x5B58;&#x4E2D;&#x7684; C_h&#x3002;&#x5047;&#x8BBE; A_h&#x3001;B_h&#x3001;A_d&#x3001;B_d &#x548C; size &#x7684;&#x503C;&#x5DF2;&#x7ECF;&#x5982;&#x524D;&#x6240;&#x8FF0;&#x8BBE;&#x7F6E;&#x5B8C;&#x6BD5;&#xFF0C;&#x4E0B;&#x9762;&#x5C55;&#x793A;&#x4E86;&#x8FD9;&#x4E09;&#x4E2A; cudaMemcpy &#x8C03;&#x7528;&#x3002;&#x4E24;&#x4E2A;&#x7B26;&#x53F7;&#x5E38;&#x91CF; cudaMemcpyHostToDevice &#x548C; cudaMemcpyDeviceToHost &#x662F; CUDA &#x7F16;&#x7A0B;&#x73AF;&#x5883;&#x4E2D;&#x9884;&#x5B9A;&#x4E49;&#x7684;&#x5E38;&#x91CF;&#x3002;&#x8BF7;&#x6CE8;&#x610F;&#xFF0C;&#x901A;&#x8FC7;&#x6B63;&#x786E;&#x6392;&#x5217;&#x6E90;&#x548C;&#x76EE;&#x6807;&#x6307;&#x9488;&#x5E76;&#x4F7F;&#x7528;&#x9002;&#x5F53;&#x7684;&#x4F20;&#x8F93;&#x7C7B;&#x578B;&#x5E38;&#x91CF;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x540C;&#x4E00;&#x51FD;&#x6570;&#x5728;&#x4E24;&#x4E2A;&#x65B9;&#x5411;&#x4E0A;&#x4F20;&#x8F93;&#x6570;&#x636E;&#x3002;</p>
+<pre><code class="lang-c">cudaMemcpy(A_d, A_h, size, cudaMemcpyHostToDevice); 
+cudaMemcpy(B_d, B_h, size, cudaMemcpyHostToDevice);
+...
+cudaMemcpy(C_h, C_d, size, cudaMemcpyDeviceToHost);
+</code></pre>
+<p>&#x603B;&#x800C;&#x8A00;&#x4E4B;&#xFF0C;&#x56FE;2.4&#x4E2D;&#x7684;&#x4E3B;&#x7A0B;&#x5E8F;&#x8C03;&#x7528;&#x4E86;&#x540C;&#x6837;&#x5728;&#x4E3B;&#x673A;&#x4E0A;&#x6267;&#x884C;&#x7684;vecAdd&#x51FD;&#x6570;&#x3002;&#x56FE;2.5&#x6982;&#x8FF0;&#x7684;vecAdd&#x51FD;&#x6570;&#x5728;&#x8BBE;&#x5907;&#x5168;&#x5C40;&#x5185;&#x5B58;&#x4E2D;&#x5206;&#x914D;&#x7A7A;&#x95F4;&#xFF0C;&#x8BF7;&#x6C42;&#x6570;&#x636E;&#x4F20;&#x8F93;&#xFF0C;&#x5E76;&#x8C03;&#x7528;&#x6267;&#x884C;&#x5B9E;&#x9645;&#x5411;&#x91CF;&#x52A0;&#x6CD5;&#x7684;&#x5185;&#x6838;&#x3002;&#x6211;&#x4EEC;&#x5C06;&#x8FD9;&#x79CD;&#x7C7B;&#x578B;&#x7684;&#x4E3B;&#x673A;&#x4EE3;&#x7801;&#x79F0;&#x4E3A;&#x8C03;&#x7528;&#x5185;&#x6838;&#x7684;&#x5B58;&#x6839;&#x3002;&#x5728;&#x56FE;2.8&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x5C55;&#x793A;&#x4E86;&#x4E00;&#x4E2A;&#x66F4;&#x5B8C;&#x6574;&#x7684;vecAdd&#x51FD;&#x6570;&#x7248;&#x672C;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">vecAdd</span><span class="hljs-params">(<span class="hljs-keyword">float</span>* A_h, <span class="hljs-keyword">float</span>* B_h, <span class="hljs-keyword">float</span>* C_h, <span class="hljs-keyword">int</span> n)</span> </span>{
+  <span class="hljs-keyword">int</span> size = <span class="hljs-function">n * <span class="hljs-title">sizeof</span><span class="hljs-params">(<span class="hljs-keyword">float</span>)</span></span>;
+  <span class="hljs-keyword">float</span> *A_d, *B_d, *C_d;
+
+  cudaMalloc((<span class="hljs-keyword">void</span> **) &amp;A_d, size);
+  cudaMalloc((<span class="hljs-keyword">void</span> **) &amp;B_d, size);
+  cudaMalloc((<span class="hljs-keyword">void</span> **) &amp;C_d, size);
+
+  cudaMemcpy(A_d, A_h, size, cudaMemcpyHostToDevice);
+  cudaMemcpy(B_d, B_h, size, cudaMemcpyHostToDevice);
+
+  <span class="hljs-comment">// Kernel invocation code &#x2013; to be shown later</span>
+  ...
+
+  cudaMemcpy(C_h, C_d, size, cudaMemcpyDeviceToHost);
+
+  cudaFree(A_d);
+  cudaFree(B_d);
+  cudaFree(C_d);
+}
+</code></pre>
 
                                 
                                 </section>
@@ -510,7 +549,7 @@ cudaFree(A_d);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"2.4 global memory和数据传输","level":"1.3.4","depth":2,"next":{"title":"2.5 内核函数和线程","level":"1.3.5","depth":2,"path":"chapter2/2.5.md","ref":"chapter2/2.5.md","articles":[]},"previous":{"title":"2.3 一个向量加法的kernel","level":"1.3.3","depth":2,"path":"chapter2/2.3.md","ref":"chapter2/2.3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["katex"],"pluginsConfig":{"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter2/2.4.md","mtime":"2024-07-05T15:55:37.483Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2024-07-05T15:55:50.510Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"2.4 global memory和数据传输","level":"1.3.4","depth":2,"next":{"title":"2.5 内核函数和线程","level":"1.3.5","depth":2,"path":"chapter2/2.5.md","ref":"chapter2/2.5.md","articles":[]},"previous":{"title":"2.3 一个向量加法的kernel","level":"1.3.3","depth":2,"path":"chapter2/2.3.md","ref":"chapter2/2.3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["katex"],"pluginsConfig":{"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter2/2.4.md","mtime":"2024-07-05T16:44:56.271Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2024-07-05T16:45:08.891Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
