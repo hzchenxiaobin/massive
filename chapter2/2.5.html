@@ -466,12 +466,66 @@
 i = \text{blockIdx.x} \times \text{blockDim.x} + \text{threadIdx.x}
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathit">i</span><span class="mrel">=</span><span class="mord text displaystyle textstyle uncramped"><span class="mord mathrm">blockIdx.x</span></span><span class="mbin">&#xD7;</span><span class="mord text displaystyle textstyle uncramped"><span class="mord mathrm">blockDim.x</span></span><span class="mbin">+</span><span class="mord text displaystyle textstyle uncramped"><span class="mord mathrm">threadIdx.x</span></span></span></span></span></span>
  &#x56DE;&#x60F3;&#x4E00;&#x4E0B;&#xFF0C;&#x5728;&#x6211;&#x4EEC;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;blockDim.x &#x662F;256&#x3002;block 0&#x4E2D;&#x7684;&#x7EBF;&#x7A0B;&#x7684;  i  &#x503C;&#x8303;&#x56F4;&#x662F;&#x4ECE;0&#x5230;255&#x3002;block 1&#x4E2D;&#x7684;&#x7EBF;&#x7A0B;&#x7684;  i  &#x503C;&#x8303;&#x56F4;&#x662F;&#x4ECE;256&#x5230;511&#x3002;block 2&#x4E2D;&#x7684;&#x7EBF;&#x7A0B;&#x7684;  i  &#x503C;&#x8303;&#x56F4;&#x662F;&#x4ECE;512&#x5230;767&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x8FD9;&#x4E09;&#x4E2A;&#x5757;&#x4E2D;&#x7684;&#x7EBF;&#x7A0B;&#x7684;  i  &#x503C;&#x8FDE;&#x7EED;&#x8986;&#x76D6;&#x4E86;&#x4ECE;0&#x5230;767&#x7684;&#x503C;&#x3002;&#x7531;&#x4E8E;&#x6BCF;&#x4E2A;&#x7EBF;&#x7A0B;&#x4F7F;&#x7528;  i  &#x6765;&#x8BBF;&#x95EE;A&#x3001;B&#x548C;C&#xFF0C;&#x8FD9;&#x4E9B;&#x7EBF;&#x7A0B;&#x8986;&#x76D6;&#x4E86;&#x539F;&#x59CB;&#x5FAA;&#x73AF;&#x7684;&#x524D;768&#x6B21;&#x8FED;&#x4EE3;&#x3002;&#x901A;&#x8FC7;&#x542F;&#x52A8;&#x5177;&#x6709;&#x66F4;&#x591A;block&#x7684;grid&#xFF0C;&#x53EF;&#x4EE5;&#x5904;&#x7406;&#x66F4;&#x5927;&#x7684;&#x5411;&#x91CF;&#x3002;&#x901A;&#x8FC7;&#x542F;&#x52A8;&#x5177;&#x6709;  n  &#x4E2A;&#x6216;&#x66F4;&#x591A;&#x7EBF;&#x7A0B;&#x7684;grid&#xFF0C;&#x53EF;&#x4EE5;&#x5904;&#x7406;&#x957F;&#x5EA6;&#x4E3A;  n  &#x7684;&#x5411;&#x91CF;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">//ComputevectorsumC=A+B</span>
+<span class="hljs-comment">// Each thread performs one pair-wise addition __global__</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">vecAddKernel</span><span class="hljs-params">(<span class="hljs-keyword">float</span>* A, <span class="hljs-keyword">float</span>* B, <span class="hljs-keyword">float</span>* C, <span class="hljs-keyword">int</span> n)</span> </span>{
+    <span class="hljs-keyword">int</span> i = threadIdx.x + blockDim.x * blockIdx.x;
+    <span class="hljs-keyword">if</span> (i &lt; n) {
+    C[i] = A[i] + B[i];
+  }
+}
+</code></pre>
+<figure>
+    <style>
+     hr {
+         border: none;
+         height: 2px;
+         background-color: black;
+         margin: 5px auto;
+     }
+    </style>
+    <figcaption>
+        <p class="no-indent" style="font-weight: bold;">
+        &#x4EE3;&#x7801;2.10
+        </p>
+           <hr style="border: none; height: 2px; background-color: black; margin: 5px auto;">
+        <p class="no-indent" style="font-family: &apos;Arial&apos;, &apos;Helvetica&apos;, sans-serif;color: #808080">
+            &#x4E00;&#x4E2A;&#x5411;&#x91CF;&#x52A0;&#x6CD5;&#x7684;kernel&#x51FD;&#x6570;
+        </p>
+    </figcaption>
+</figure>
+&#x4EE3;&#x7801;2.10&#x663E;&#x793A;&#x4E86;&#x4E00;&#x4E2A;&#x7528;&#x4E8E;&#x5411;&#x91CF;&#x52A0;&#x6CD5;&#x7684;&#x6838;&#x51FD;&#x6570;&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x6211;&#x4EEC;&#x5728;kernel&#x51FD;&#x6570;&#x4E2D;&#x4E0D;&#x4F7F;&#x7528;&#x201C;\_h&#x201D;&#x548C;&#x201C;\_d&#x201D;&#x7EA6;&#x5B9A;&#xFF0C;&#x56E0;&#x4E3A;&#x6CA1;&#x6709;&#x6F5C;&#x5728;&#x7684;&#x6DF7;&#x6DC6;&#x3002;&#x5728;&#x6211;&#x4EEC;&#x7684;&#x793A;&#x4F8B;&#x4E2D;&#x4E0D;&#x4F1A;&#x8BBF;&#x95EE;host&#x5185;&#x5B58;&#x3002;&#x6838;&#x51FD;&#x6570;&#x7684;&#x8BED;&#x6CD5;&#x662F;ANSI C&#xFF0C;&#x4F46;&#x6709;&#x4E00;&#x4E9B;&#x663E;&#x8457;&#x7684;&#x6269;&#x5C55;&#x3002;&#x9996;&#x5148;&#xFF0C;&#x5728; vecAddKernel &#x51FD;&#x6570;&#x58F0;&#x660E;&#x524D;&#x6709;&#x4E00;&#x4E2A;CUDA-C&#x7279;&#x5B9A;&#x7684;&#x5173;&#x952E;&#x5B57; &#x201C;\__global__&#x201D;&#x3002;&#x8FD9;&#x4E2A;&#x5173;&#x952E;&#x5B57;&#x8868;&#x793A;&#x8BE5;&#x51FD;&#x6570;&#x662F;&#x4E00;&#x4E2A;kernel&#x51FD;&#x6570;&#xFF0C;&#x5E76;&#x4E14;&#x53EF;&#x4EE5;&#x88AB;&#x8C03;&#x7528;&#x5728;device&#x4E0A;&#x751F;&#x6210;&#x4E00;&#x4E2A;grid&#x3002;
+
+<figure>
+    <style>
+     hr {
+         border: none;
+         height: 2px;
+         background-color: black;
+         margin: 5px auto;
+     }
+    </style>
+    <img id="fig2.11" src="../pic/chapter2/fig2.11.jpeg">
+    <figcaption>
+        <p class="no-indent" style="font-weight: bold;">
+        &#x56FE;2.11
+        </p>
+           <hr style="border: none; height: 2px; background-color: black; margin: 5px auto;">
+        <p class="no-indent" style="font-family: &apos;Arial&apos;, &apos;Helvetica&apos;, sans-serif;color: #808080">
+            CUDA C&#x4E2D;&#x7684;&#x51FD;&#x6570;&#x58F0;&#x660E;&#x5173;&#x952E;&#x5B57;
+        </p>
+    </figcaption>
+</figure>
+
+<p>&#x603B;&#x7684;&#x6765;&#x8BF4;&#xFF0C;CUDA C&#x8BED;&#x8A00;&#x901A;&#x8FC7;&#x4E09;&#x4E2A;&#x9650;&#x5B9A;&#x7B26;&#x5173;&#x952E;&#x5B57;&#x6269;&#x5C55;&#x4E86;C&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x51FD;&#x6570;&#x58F0;&#x660E;&#x3002;&#x8FD9;&#x4E9B;&#x5173;&#x952E;&#x5B57;&#x7684;&#x542B;&#x4E49;&#x5982;<a href="#fig2.11">&#x56FE;2.11</a>&#x6240;&#x603B;&#x7ED3;&#x3002;&#x5173;&#x952E;&#x5B57; &#x201C;_<em>global_</em>&#x201D; &#x8868;&#x793A;&#x88AB;&#x58F0;&#x660E;&#x7684;&#x51FD;&#x6570;&#x662F;&#x4E00;&#x4E2A;CUDA C kernel&#x51FD;&#x6570;&#x3002;&#x8BF7;&#x6CE8;&#x610F;&#xFF0C;&#x5355;&#x8BCD; &#x201C;global&#x201D; &#x7684;&#x4E24;&#x4FA7;&#x5404;&#x6709;&#x4E24;&#x4E2A;&#x4E0B;&#x5212;&#x7EBF;&#x5B57;&#x7B26;&#x3002;&#x8FD9;&#x6837;&#x7684;&#x6838;&#x51FD;&#x6570;&#x5728;device&#x4E0A;&#x6267;&#x884C;&#xFF0C;&#x5E76;&#x4E14;&#x53EF;&#x4EE5;&#x4ECE;host&#x8C03;&#x7528;&#x3002;&#x5728;&#x652F;&#x6301;&#x52A8;&#x6001;&#x5E76;&#x884C;&#x6027;&#x7684;CUDA&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x5B83;&#x8FD8;&#x53EF;&#x4EE5;&#x4ECE;device&#x8C03;&#x7528;&#xFF0C;&#x8FD9;&#x70B9;&#x6211;&#x4EEC;&#x5C06;&#x5728;&#x7B2C;21&#x7AE0;CUDA&#x52A8;&#x6001;&#x5E76;&#x884C;&#x6027;&#x4E2D;&#x770B;&#x5230;&#x3002;&#x5176;&#x91CD;&#x8981;&#x7279;&#x6027;&#x5728;&#x4E8E;&#x8C03;&#x7528;&#x8FD9;&#x6837;&#x7684;kernel&#x51FD;&#x6570;&#x4F1A;&#x5728;device&#x4E0A;&#x542F;&#x52A8;&#x4E00;&#x4E2A;&#x65B0;&#x7684;grid&#x3002;</p>
+<p> &#x201C;_<em>device_</em>&#x201D; &#x5173;&#x952E;&#x5B57;&#x8868;&#x660E;&#x58F0;&#x660E;&#x7684;&#x51FD;&#x6570;&#x662F;&#x4E00;&#x4E2A; CUDA &#x7684;device&#x51FD;&#x6570;&#x3002;device&#x51FD;&#x6570;&#x5728; CUDA &#x7684;device&#x4E0A;&#x6267;&#x884C;&#xFF0C;&#x53EA;&#x80FD;&#x4ECE;kernel&#x51FD;&#x6570;&#x6216;&#x53E6;&#x4E00;&#x4E2A;device&#x51FD;&#x6570;&#x8C03;&#x7528;&#x3002;device&#x51FD;&#x6570;&#x7531;&#x8C03;&#x7528;&#x5B83;&#x7684;device&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#xFF0C;&#x5E76;&#x4E0D;&#x4F1A;&#x542F;&#x52A8;&#x65B0;&#x7684;device&#x7EBF;&#x7A0B;&#x3002;<sup><a href="#fn_7" id="reffn_7">7</a></sup></p>
 <blockquote id="fn_5">
 <sup>5</sup>. &#x8BF7;&#x6CE8;&#x610F;&#xFF0C;SPMD&#xFF08;&#x5355;&#x7A0B;&#x5E8F;&#x591A;&#x6570;&#x636E;&#xFF09;&#x4E0E;SIMD&#xFF08;&#x5355;&#x6307;&#x4EE4;&#x591A;&#x6570;&#x636E;&#xFF09;[<a href="https://ieeexplore.ieee.org/document/5009071" target="_blank">Flynn 1972</a> &#x5E76;&#x4E0D;&#x76F8;&#x540C;&#x3002;&#x5728;SPMD&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x591A;&#x4E2A;&#x5E76;&#x884C;&#x5904;&#x7406;&#x5355;&#x5143;&#x5728;&#x6570;&#x636E;&#x7684;&#x4E0D;&#x540C;&#x90E8;&#x5206;&#x4E0A;&#x6267;&#x884C;&#x76F8;&#x540C;&#x7684;&#x7A0B;&#x5E8F;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x8FD9;&#x4E9B;&#x5904;&#x7406;&#x5355;&#x5143;&#x4E0D;&#x9700;&#x8981;&#x540C;&#x65F6;&#x6267;&#x884C;&#x76F8;&#x540C;&#x7684;&#x6307;&#x4EE4;&#x3002;&#x5728;SIMD&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x5904;&#x7406;&#x5355;&#x5143;&#x5728;&#x4EFB;&#x4F55;&#x65F6;&#x523B;&#x90FD;&#x6267;&#x884C;&#x76F8;&#x540C;&#x7684;&#x6307;&#x4EE4;&#x3002;<a href="#reffn_5" title="Jump back to footnote [5] in the text."> &#x21A9;</a>
 </blockquote>
 <blockquote id="fn_6">
 <sup>6</sup>. &#x5728;CUDA 3.0&#x53CA;&#x4EE5;&#x540E;&#x7684;&#x7248;&#x672C;&#x4E2D;&#xFF0C;&#x6BCF;&#x4E2A;block&#x6700;&#x591A;&#x53EF;&#x4EE5;&#x5305;&#x542B;1024&#x4E2A;&#x7EBF;&#x7A0B;&#x3002;&#x800C;&#x5728;&#x4E00;&#x4E9B;&#x8F83;&#x65E9;&#x7684;CUDA&#x7248;&#x672C;&#x4E2D;&#xFF0C;&#x6BCF;&#x4E2A;block&#x6700;&#x591A;&#x53EA;&#x80FD;&#x5305;&#x542B;512&#x4E2A;&#x7EBF;&#x7A0B;&#x3002;<a href="#reffn_6" title="Jump back to footnote [6] in the text."> &#x21A9;</a>
 </blockquote>
+<p><sup><a href="#fn_7" id="reffn_7">7</a></sup>:&#x6211;&#x4EEC;&#x5C06;&#x5728;&#x7A0D;&#x540E;&#x89E3;&#x91CA;&#x5728;&#x4E0D;&#x540C;&#x4EE3;&#x7684;CUDA &#x4E2D;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x95F4;&#x63A5;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x548C;&#x9012;&#x5F52;&#x7684;&#x89C4;&#x5219;&#x3002;&#x603B;&#x7684;&#x6765;&#x8BF4;&#xFF0C;&#x5728;&#x8BBE;&#x5907;device&#x51FD;&#x6570;&#x548C;kernel&#x51FD;&#x6570;&#x4E2D;&#x5E94;&#x907F;&#x514D;&#x4F7F;&#x7528;&#x9012;&#x5F52;&#x548C;&#x95F4;&#x63A5;&#x51FD;&#x6570;&#x8C03;&#x7528;&#xFF0C;&#x4EE5;&#x786E;&#x4FDD;&#x6700;&#x5927;&#x7684;&#x53EF;&#x79FB;&#x690D;&#x6027;&#x3002;</p>
 
                                 
                                 </section>
@@ -515,7 +569,7 @@ i = \text{blockIdx.x} \times \text{blockDim.x} + \text{threadIdx.x}
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"2.5 kernel函数和线程","level":"1.3.5","depth":2,"next":{"title":"2.6 调用内核函数","level":"1.3.6","depth":2,"path":"chapter2/2.6.md","ref":"chapter2/2.6.md","articles":[]},"previous":{"title":"2.4 global memory和数据传输","level":"1.3.4","depth":2,"path":"chapter2/2.4.md","ref":"chapter2/2.4.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["katex"],"pluginsConfig":{"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter2/2.5.md","mtime":"2024-07-07T11:18:04.896Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2024-07-07T11:18:31.485Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"2.5 kernel函数和线程","level":"1.3.5","depth":2,"next":{"title":"2.6 调用内核函数","level":"1.3.6","depth":2,"path":"chapter2/2.6.md","ref":"chapter2/2.6.md","articles":[]},"previous":{"title":"2.4 global memory和数据传输","level":"1.3.4","depth":2,"path":"chapter2/2.4.md","ref":"chapter2/2.4.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["katex"],"pluginsConfig":{"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter2/2.5.md","mtime":"2024-07-07T13:36:37.625Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2024-07-07T13:37:38.363Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
