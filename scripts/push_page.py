@@ -4,8 +4,6 @@ import shutil
 import sys
 
 massive_path = '/mnt/d/massive/'
-#这个脚本用于构建gitbook并且将构建结果推送到gh-pages分支上，
-#使得最新的翻译结果在https://github.com/hzchenxiaobin/massive页面展示
 
 #1.将当前目录切换到上一层目录
 os.chdir(massive_path)
@@ -31,9 +29,9 @@ subprocess.run('gitbook build', shell=True)
 print("==========copy _book==========")
 subprocess.run('cp -r ./_book ../', shell=True)
 
-#6.丢弃本地修改
-print("==========git checkout . ==========")
-subprocess.run('git checkout .', shell=True)
+subprocess.run('rm -rf _book', shell=True)
+
+subprocess.run('rm -rf node_modules', shell=True)
 
 #7.git切换到gh-pages
 print("==========git checkout gh-pages==========")
@@ -41,17 +39,6 @@ subprocess.run('git checkout gh-pages', shell=True)
 
 #8.将当前的内容都删除，除了.git目录
 print("==========delete directory==========")
-
-# current_dir = os.getcwd()
-
-# for item in os.listdir(current_dir):
-#     item_path = os.path.join(current_dir, item)
-#     if item == '.git':
-#         continue
-#     if os.path.isfile(item_path):
-#         os.remove(item_path)
-#     elif os.path.isdir(item_path):
-#         shutil.rmtree(item_path)
 
 #9.将book目录的内容都拷贝到当前目录
 print("==========copy directory==========")
@@ -67,3 +54,7 @@ subprocess.run('git push', shell=True)
 #11.git change to master
 print("==========git change to master==========")
 subprocess.run('git checkout master', shell=True)
+
+
+
+
