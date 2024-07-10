@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>练习题 · GitBook</title>
+        <title>习题 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -63,7 +63,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="reference.html" />
+    <link rel="next" href="exercise_answer.html" />
     
     
     <link rel="prev" href="2.8.html" />
@@ -354,7 +354,7 @@
                 <a href="exercise.html">
             
                     
-                    练习题
+                    习题
             
                 </a>
             
@@ -362,7 +362,20 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.10" data-path="reference.html">
+        <li class="chapter " data-level="1.3.10" data-path="exercise_answer.html">
+            
+                <a href="exercise_answer.html">
+            
+                    
+                    习题答案
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.11" data-path="reference.html">
             
                 <a href="reference.html">
             
@@ -410,7 +423,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >练习题</a>
+        <a href=".." >习题</a>
     </h1>
 </div>
 
@@ -455,6 +468,35 @@
 <p>(B) (void  *) A_d</p>
 <p>(C)  *A_d</p>
 <p>(D) (void  **) &amp;A_d</p>
+<p>7.&#x5982;&#x679C;&#x6211;&#x4EEC;&#x5E0C;&#x671B;&#x5C06;&#x6765;&#x81EA;host&#x6570;&#x7EC4; <code>A_h</code> &#x7684;3000&#x5B57;&#x8282;&#x6570;&#x636E;&#xFF08;&#x5176;&#x4E2D; <code>A_h</code> &#x662F;&#x6E90;&#x6570;&#x7EC4;&#x7B2C;0&#x4E2A;&#x5143;&#x7D20;&#x7684;&#x6307;&#x9488;&#xFF09;&#x590D;&#x5236;&#x5230;device&#x6570;&#x7EC4; <code>A_d</code>&#xFF08;&#x5176;&#x4E2D; <code>A_d</code> &#x662F;&#x76EE;&#x6807;&#x6570;&#x7EC4;&#x7B2C;0&#x4E2A;&#x5143;&#x7D20;&#x7684;&#x6307;&#x9488;&#xFF09;&#xFF0C;&#x5728;CUDA&#x4E2D;&#x8FDB;&#x884C;&#x8FD9;&#x79CD;&#x6570;&#x636E;&#x590D;&#x5236;&#x7684;&#x9002;&#x5F53;API&#x8C03;&#x7528;&#x662F;&#x4EC0;&#x4E48;&#xFF1F;</p>
+<p>(A) cudaMemcpy(3000, A_h, A_d, cudaMemcpyHostToDevice);</p>
+<p>(B) cudaMemcpy(A_h, A_d, 3000, cudaMemcpyDeviceTHost);</p>
+<p>(C) cudaMemcpy(A_d, A_h, 3000, cudaMemcpyHostToDevice);</p>
+<p>(D) cudaMemcpy(3000, A_d, A_h, cudaMemcpyHostToDevice);</p>
+<p>8.&#x5982;&#x4F55;&#x58F0;&#x660E;&#x4E00;&#x4E2A;&#x53D8;&#x91CF; <code>err</code>&#xFF0C;&#x4F7F;&#x5176;&#x80FD;&#x591F;&#x9002;&#x5F53;&#x63A5;&#x6536;CUDA API&#x8C03;&#x7528;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#xFF1F;</p>
+<p>(A) int err;</p>
+<p>(B) cudaError err;</p>
+<p>(C) cudaError_t err;</p>
+<p>(D) cudaSuccess_t err;</p>
+<p>9.&#x4EE5;&#x4E0B;&#x7684;CUDA&#x6838;&#x51FD;&#x6570;&#x53CA;&#x5176;&#x5BF9;&#x5E94;&#x7684;&#x8C03;&#x7528;&#x5B83;&#x7684;&#x4E3B;&#x673A;&#x51FD;&#x6570;&#xFF1A;</p>
+<pre><code class="lang-c"><span class="hljs-number">01</span>     __<span class="hljs-function">global__ <span class="hljs-keyword">void</span> <span class="hljs-title">foo_kernel</span><span class="hljs-params">(<span class="hljs-keyword">float</span>* a, <span class="hljs-keyword">float</span>* b, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> N)</span></span>{
+<span class="hljs-number">02</span>     <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> i=blockIdx.x * blockDim.x + threadIdx.x;
+<span class="hljs-number">03</span>     <span class="hljs-keyword">if</span>(i &lt; N) {
+<span class="hljs-number">04</span>         b[i]=<span class="hljs-number">2.7f</span> * a[i] - <span class="hljs-number">4.3f</span>;
+<span class="hljs-number">05</span>    }
+<span class="hljs-number">06</span>     }
+
+<span class="hljs-number">07</span>     <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">foo</span><span class="hljs-params">(<span class="hljs-keyword">float</span>* a_d, <span class="hljs-keyword">float</span>* b_d)</span> </span>{
+<span class="hljs-number">08</span>         <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> N=<span class="hljs-number">200000</span>;
+<span class="hljs-number">09</span>         foo_kernel&lt;&lt;&lt;(N + <span class="hljs-number">128</span>, <span class="hljs-number">1</span>)/<span class="hljs-number">128</span>, <span class="hljs-number">128</span>&gt;&gt;&gt;(a_d, b_d, N);
+<span class="hljs-number">10</span> }
+</code></pre>
+<p>a.&#x6BCF;&#x4E2A;block&#x4E2D;&#x6709;&#x591A;&#x5C11;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF1F;</p>
+<p>b.grid&#x4E2D;&#x6709;&#x591A;&#x5C11;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF1F;</p>
+<p>c.grid&#x4E2D;&#x6709;&#x591A;&#x5C11;&#x4E2A;block&#xFF1F;</p>
+<p>d.&#x6709;&#x591A;&#x5C11;&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#x4E86;&#x7B2C;2&#x884C;&#x4EE3;&#x7801;&#xFF1F;</p>
+<p>e.&#x6709;&#x591A;&#x5C11;&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#x4E86;&#x7B2C;4&#x884C;&#x4EE3;&#x7801;&#xFF1F;</p>
+<p>10.&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x6691;&#x671F;&#x5B9E;&#x4E60;&#x751F;&#x5BF9;CUDA&#x611F;&#x5230;&#x6CAE;&#x4E27;&#x3002;&#x4ED6;&#x4E00;&#x76F4;&#x5728;&#x62B1;&#x6028;CUDA&#x975E;&#x5E38;&#x7E41;&#x7410;&#x3002;&#x4ED6;&#x4E0D;&#x5F97;&#x4E0D;&#x58F0;&#x660E;&#x8BB8;&#x591A;&#x51FD;&#x6570;&#xFF0C;&#x4ED6;&#x8BA1;&#x5212;&#x5728;host&#x548C;device&#x4E0A;&#x6267;&#x884C;&#x4E24;&#x6B21;&#xFF0C;&#x4E00;&#x6B21;&#x4F5C;&#x4E3A;host&#x51FD;&#x6570;&#xFF0C;&#x4E00;&#x6B21;&#x4F5C;&#x4E3A;device&#x51FD;&#x6570;&#x3002;&#x4F60;&#x7684;&#x56DE;&#x5E94;&#x662F;&#x4EC0;&#x4E48;&#xFF1F;</p>
 
                                 
                                 </section>
@@ -487,7 +529,7 @@
                 </a>
                 
                 
-                <a href="reference.html" class="navigation navigation-next " aria-label="Next page: 参考文献">
+                <a href="exercise_answer.html" class="navigation navigation-next " aria-label="Next page: 习题答案">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -498,7 +540,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"练习题","level":"1.3.9","depth":2,"next":{"title":"参考文献","level":"1.3.10","depth":2,"path":"chapter2/reference.md","ref":"chapter2/reference.md","articles":[]},"previous":{"title":"2.8 总结","level":"1.3.8","depth":2,"path":"chapter2/2.8.md","ref":"chapter2/2.8.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["katex"],"pluginsConfig":{"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter2/exercise.md","mtime":"2024-07-10T15:55:52.512Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2024-07-10T15:57:07.760Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"习题","level":"1.3.9","depth":2,"next":{"title":"习题答案","level":"1.3.10","depth":2,"path":"chapter2/exercise_answer.md","ref":"chapter2/exercise_answer.md","articles":[]},"previous":{"title":"2.8 总结","level":"1.3.8","depth":2,"path":"chapter2/2.8.md","ref":"chapter2/2.8.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["katex"],"pluginsConfig":{"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter2/exercise.md","mtime":"2024-07-10T16:21:12.624Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2024-07-10T16:26:03.735Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
