@@ -67,3 +67,59 @@
 (C)  *A_d
 
 (D) (void  **) &A_d
+
+
+
+7.如果我们希望将来自host数组 `A_h` 的3000字节数据（其中 `A_h` 是源数组第0个元素的指针）复制到device数组 `A_d`（其中 `A_d` 是目标数组第0个元素的指针），在CUDA中进行这种数据复制的适当API调用是什么？
+
+(A) cudaMemcpy(3000, A_h, A_d, cudaMemcpyHostToDevice);
+
+(B) cudaMemcpy(A_h, A_d, 3000, cudaMemcpyDeviceTHost);
+
+(C) cudaMemcpy(A_d, A_h, 3000, cudaMemcpyHostToDevice);
+
+(D) cudaMemcpy(3000, A_d, A_h, cudaMemcpyHostToDevice);
+
+
+
+8.如何声明一个变量 `err`，使其能够适当接收CUDA API调用的返回值？
+
+(A) int err;
+
+(B) cudaError err;
+
+(C) cudaError_t err;
+
+(D) cudaSuccess_t err;
+
+
+
+9.以下的CUDA核函数及其对应的调用它的主机函数：
+
+```c
+01 	__global__ void foo_kernel(float* a, float* b, unsigned int N){
+02 	unsigned int i=blockIdx.x * blockDim.x + threadIdx.x;
+03 	if(i < N) {
+04 		b[i]=2.7f * a[i] - 4.3f;
+05    }
+06 	}
+
+07 	void foo(float* a_d, float* b_d) {
+08 		unsigned int N=200000;
+09 		foo_kernel<<<(N + 128, 1)/128, 128>>>(a_d, b_d, N);
+10 }
+```
+
+a.每个block中有多少个线程？
+
+b.grid中有多少个线程？
+
+c.grid中有多少个block？
+
+d.有多少线程执行了第2行代码？
+
+e.有多少线程执行了第4行代码？
+
+
+
+10.一个新的暑期实习生对CUDA感到沮丧。他一直在抱怨CUDA非常繁琐。他不得不声明许多函数，他计划在host和device上执行两次，一次作为host函数，一次作为device函数。你的回应是什么？

@@ -19,6 +19,7 @@
   * [2.6 调用kernel函数](chapter2/2.6.md)
   * [2.7 编译](chapter2/2.7.md)
   * [2.8 总结](chapter2/2.8.md)
-  * [练习题](chapter2/exercise.md)
+  * [习题](chapter2/exercise.md)
+  * [习题答案](chapter2/exercise_answer.md)
   * [参考文献](chapter2/reference.md)
 
