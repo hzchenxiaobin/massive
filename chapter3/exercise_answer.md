@@ -112,3 +112,23 @@ c.
 
 
 
+2.
+
+```c++
+    __global__ void matrixMulKernelCol(float* A, const float* B, const float* C, int size) {
+    // Calculate the row index of the element to be processed by this thread
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+
+    // Check if the row index is within the bounds of the output matrix
+    if (i < size) {
+        float sum = 0;
+        for (int j = 0; j < size; ++j) {
+            sum += B[i * size + j] + C[j];
+        }
+        A[i] = sum;
+    }
+}
+```
+
+
+
