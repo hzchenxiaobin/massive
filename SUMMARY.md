@@ -34,6 +34,7 @@
   - [3.4 矩阵乘法](chapter3/3.4.md)
   - [3.5 总结](chapter3/3.5.md)
   - [练习题](chapter3/exercise.md)
+  - [习题答案](chapter3/exercise_answer.md)
   
   
 

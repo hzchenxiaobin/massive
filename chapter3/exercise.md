@@ -18,3 +18,47 @@ $$
 
 
 
+3.思考下面的CUDA kernel函数和调用kernel函数的host函数：
+
+```c++
+__global__ void foo_kernel(float* a, float* b, unsigned int M, unsigned int N) {
+    unsigned int row = blockIdx.y * blockDim.y + threadIdx.y;
+    unsigned int col = blockIdx.x * blockDim.x + threadIdx.x;
+    if (row < M && col < N) {
+        b[row * N + col] = a[row * N + col] / 2.1f + 4.8f;
+    }
+}
+
+void foo(float* a_d, float* b_d) {
+    unsigned int M = 150;
+    unsigned int N = 300;
+    dim3 bd(16, 32);
+    dim3 gd((N - 1) / 16 + 1, (M - 1) / 32 + 1);//(19, 5)
+    foo_kernel<<<gd, bd>>>(a_d, b_d, M, N);
+}
+```
+
+a.每个block有多少个线程？ 
+
+b.每个grid有多少个线程？
+
+c.grid中有多少个block？
+
+d.总共有多少个线程执行了代码中的第5行？
+
+
+
+4.有一个宽度为400高度为500的2D矩阵，该矩阵是存在一维数组中，算出row=20 col=10的元素在该数组中的索引值：
+
+1.如果矩阵是行优先存储的。
+
+2.如果矩阵是列优先存储的。
+
+
+
+5.考虑一个三维张量，宽度为400，高度为500，深度为300。该张量按行优先顺序存储为一维数组。请指定张量在 x = 10，y = 20，z = 5 处的数组索引。
+
+
+
+
+
