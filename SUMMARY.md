@@ -27,14 +27,52 @@
   * [参考文献](chapter2/reference.md)
   
 * [第三章 多维grid和多维数据](chapter3/README.md)
-  
+
   - [3.1 多维grid组织](chapter3/3.1.md)
+
   - [3.2 将线程映射到多维数据](chapter3/3.2.md)
+
   - [3.3 图像模糊：一个更复杂的kernel](chapter3/3.3.md)
+
   - [3.4 矩阵乘法](chapter3/3.4.md)
+
   - [3.5 总结](chapter3/3.5.md)
+
   - [练习题](chapter3/exercise.md)
+
   - [习题答案](chapter3/exercise_answer.md)
+
+* [第四章 计算架构和调度](chapter4/README.md)
+
+  - [4.1 现代GPU的架构](chapter4/4.1.md)
+
+  - [4.2 block调度](chapter4/4.2.md)
+
+  - [4.3 同步和透明可扩展性](chapter4/4.3.md)
+
+  - [4.4 Warp和SIMD硬件](chapter4/4.4.md)
+  
+  - [4.5 控制分歧](chapter4/4.5.md)
+  
+  - [4.6 Warp调度和延迟容忍](chapter4/4.6.md)
+  
+  - [4.7 资源分区和占用](chapter4/4.7.md)
+  
+  - [4.8 查询设备属性](chapter4/4.8.md)
+  
+  - [4.9 总结](chapter4/4.9.md)
+  
+  - [练习题](chapter4/exercise.md)
+  
+  - [习题答案](chapter4/exercise_answer.md)
+  
+  - [参考文献](chapter4/reference.md)
+  
+    
+  
+    
+    
+    
   
   
 
